@@ -22,8 +22,8 @@ export interface Recipe {
   servings: string;
 }
 
-export default function RecipeList() {
-  const { data: recipes, isLoading, isError } = useRecipesQuery();
+export default function RecipeList({ initialRecipes }: { initialRecipes: Recipe[] }) {
+  const { data: recipes, isLoading, isError } = useRecipesQuery(initialRecipes);
   const router = useRouter();
   if (isLoading) {
     <h2>Loading...</h2>
@@ -34,30 +34,32 @@ export default function RecipeList() {
 
   console.log(recipes);
 
+  const recipesRow = recipes?.map((recipe: Recipe) => (
+    <TableRow key={recipe.id} sx={{
+      borderBottom: "1px solid rgb(224, 224, 224)",
+      display: "flex",
+      justifyContent: "space-between",
+    }}>
+        <TableCell sx={{ border: "none" }}>{recipe.title}</TableCell>
+        <TableCell sx={{ border: "none" }}>
+          <IconButton onClick={() => router.push(`/recipe/${recipe.id}`)}>
+            <VisibilityIcon />
+          </IconButton>
+          <IconButton>
+            <EditIcon />
+          </IconButton>
+          <IconButton>
+            <DeleteIcon />
+          </IconButton>
+        </TableCell>
+    </TableRow>
+  ));
+
   return (
     <TableContainer sx={{ maxWidth: "700px", margin: "1em auto" }} component={Paper}>
       <Table>
         <TableBody>
-          {recipes.map((recipe: Recipe) => (
-            <TableRow key={recipe.id} sx={{ borderBottom: "1px solid rgb(224, 224, 224)"}}>
-              <Stack direction="row" justifyContent="space-between" >
-                <TableCell sx={{ border: "none" }}>{recipe.title}</TableCell>
-                <TableCell sx={{ border: "none" }}>
-                  <Stack direction="row" spacing={2}>
-                    <IconButton onClick={() => router.push(`/recipe/${recipe.id}`)}>
-                      <VisibilityIcon />
-                    </IconButton>
-                    <IconButton>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Stack>
-                </TableCell>
-              </Stack>
-            </TableRow>
-          ))}
+          {recipesRow}
         </TableBody>
       </Table>
     </TableContainer>

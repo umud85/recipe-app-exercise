@@ -1,10 +1,12 @@
-import HydratedRecipeList from '@/HydratedRecipeList';
+import fetchRecipes from '@/services/fetchRecipes';
+import RecipeList, { Props, Recipe } from '@/components/RecipeList';
 
-export default function Home() {
+export default async function Home() {
+  const initialData = await fetchRecipes();
   return (
-    <main>
+    <>
       <h1 className="text-center mt-2 text-2xl font-bold">Recipe App</h1>
-      <HydratedRecipeList />
-    </main>
+      <RecipeList props={initialData} />
+    </>
   )
 }
