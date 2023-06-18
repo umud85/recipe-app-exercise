@@ -12,7 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '@mui/material/Table/Table';
 import { useRouter } from 'next/navigation';
-
+import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box/Box';
 
 export interface Recipe {
   id: string;
@@ -31,36 +32,39 @@ export default function RecipeList() {
     <h2>Error...</h2>
   }
 
-  console.log(recipes);
-
-  const recipesRow = recipes?.map((recipe: Recipe) => (
-    <TableRow key={recipe.id} sx={{
-      borderBottom: "1px solid rgb(224, 224, 224)",
-      display: "flex",
-      justifyContent: "space-between",
-    }}>
-        <TableCell sx={{ border: "none" }}>{recipe.title}</TableCell>
-        <TableCell sx={{ border: "none" }}>
-          <IconButton onClick={() => router.push(`/recipe/${recipe.id}`)}>
-            <VisibilityIcon />
-          </IconButton>
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </TableCell>
-    </TableRow>
-  ));
-
   return (
-    <TableContainer sx={{ maxWidth: "700px", margin: "1em auto" }} component={Paper}>
-      <Table>
-        <TableBody>
-          {recipesRow}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box sx={{ maxWidth: "700px", margin: "1em auto" }}>
+      <Box sx={{ display: "flex", justifyContent: "end" }}>
+        <IconButton size="large" onClick={() => router.push("/recipe/add")}>
+          <AddIcon fontSize="large" />
+        </IconButton>
+      </Box>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableBody>
+            {recipes?.map((recipe: Recipe) => (
+              <TableRow key={recipe.id} sx={{
+                borderBottom: "1px solid rgb(224, 224, 224)",
+                display: "flex",
+                justifyContent: "space-between",
+              }}>
+                <TableCell sx={{ border: "none" }}>{recipe.title}</TableCell>
+                <TableCell sx={{ border: "none" }}>
+                  <IconButton onClick={() => router.push(`/recipe/${recipe.id}`)}>
+                    <VisibilityIcon />
+                  </IconButton>
+                  <IconButton>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }
