@@ -11,7 +11,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '@mui/material/Table/Table';
-import Stack from '@mui/material/Stack/Stack';
 import { useRouter } from 'next/navigation';
 
 
@@ -22,8 +21,8 @@ export interface Recipe {
   servings: string;
 }
 
-export default function RecipeList({ initialRecipes }: { initialRecipes: Recipe[] }) {
-  const { data: recipes, isLoading, isError } = useRecipesQuery(initialRecipes);
+export default function RecipeList() {
+  const { data: recipes, isLoading, isError } = useRecipesQuery();
   const router = useRouter();
   if (isLoading) {
     <h2>Loading...</h2>
