@@ -1,5 +1,5 @@
 import fetchRecipes from '@/services/fetchRecipes';
-import RecipeList, { Props, Recipe } from '@/components/RecipeList';
+import RecipeList from '@/components/RecipeList';
 
 export default async function Home() {
   const initialData = await fetchRecipes();
